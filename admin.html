@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Admin Panel - SMIT Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-smit">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="dashboard.html">🏫 SMIT Hub - Admin Panel</a>
+            <div class="d-flex gap-2">
+                <a href="dashboard.html" class="btn btn-light btn-sm">🏠 Dashboard</a>
+                <button class="btn btn-light btn-sm" id="logoutBtn">🚪 Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-3 mt-sm-4">
+        <!-- Stats Cards -->
+        <div class="row g-2 g-sm-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="admin-card" onclick="showTab('lostfound')">
+                    <h2 id="lostCount">0</h2>
+                    <p>🔍 Lost & Found</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="admin-card" onclick="showTab('complaints')">
+                    <h2 id="complaintCount">0</h2>
+                    <p>📝 Complaints</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="admin-card" onclick="showTab('volunteers')">
+                    <h2 id="volunteerCount">0</h2>
+                    <p>🤝 Volunteers</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="admin-card" onclick="showTab('claims')">
+                    <h2 id="claimCount">0</h2>
+                    <p>👋 Raise Hand</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#lostfound">🔍 Lost & Found</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#complaints">📝 Complaints</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#volunteers">🤝 Volunteers</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#claims">👋 Raise Hand Claims</button></li>
+        </ul>
+        
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Lost & Found Tab -->
+            <div class="tab-pane fade show active" id="lostfound">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><th>#</th><th>Title</th><th>Description</th><th>Status</th><th>User ID</th><th>Date</th><th>Action</th>
+                            </thead>
+                        <tbody id="lostFoundTable"><tr><td colspan="7" class="text-center">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Complaints Tab -->
+            <div class="tab-pane fade" id="complaints">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><th>#</th><th>Category</th><th>Description</th><th>Status</th><th>User ID</th><th>Date</th><th>Action</th>
+                            </thead>
+                        <tbody id="complaintsTable"><tr><td colspan="7" class="text-center">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Volunteers Tab -->
+            <div class="tab-pane fade" id="volunteers">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><th>#</th><th>Name</th><th>Event</th><th>Availability</th><th>User ID</th><th>Date</th>
+                            </thead>
+                        <tbody id="volunteersTable"><tr><td colspan="6" class="text-center">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Claims Tab -->
+            <div class="tab-pane fade" id="claims">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr><th>#</th><th>Item</th><th>Claimant Name</th><th>Claimant Email</th><th>Message</th><th>Status</th><th>Date</th><th>Action</th>
+                            </thead>
+                        <tbody id="claimsTable"><td><td colspan="8" class="text-center">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

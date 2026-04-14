@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer - SMIT Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-smit">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="dashboard.html">🏫 SMIT Hub - Volunteer</a>
+            <div class="d-flex gap-2">
+                <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#volunteerModal">🤝 Register</button>
+                <a href="dashboard.html" class="btn btn-light btn-sm">🏠</a>
+                <button class="btn btn-light btn-sm" id="logoutBtn">🚪</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-3 mt-sm-4">
+        <h4 class="mb-3">📋 My Volunteer History <span id="volunteerCount" class="badge bg-primary">0</span></h4>
+        <div class="row g-3" id="volunteerList">Loading...</div>
+    </div>
+    <!-- Volunteer Registration Modal -->
+    <div class="modal fade" id="volunteerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #66b032, #0057a8); color: white;">
+                    <h5 class="modal-title">🤝 Register as Volunteer</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="volunteerForm">
+                        <div class="mb-3"><label>Full Name</label><input type="text" id="name" class="form-control" required></div>
+                        <div class="mb-3"><label>Event</label><select id="event" class="form-control"><option>Tech Workshop</option><option>Coding Bootcamp</option><option>Hackathon 2026</option><option>Career Fair</option></select></div>
+                        <div class="mb-3"><label>Availability</label><select id="availability" class="form-control"><option>Weekdays</option><option>Weekends</option><option>Both</option></select></div>
+                        <button type="submit" class="btn btn-smit-success w-100">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/volunteer.js"></script>
+</body>
+</html>
