@@ -11,7 +11,7 @@
     <nav class="navbar navbar-smit">
         <div class="container">
             <a class="navbar-brand fw-bold" href="dashboard.html">🏫 SMIT Hub - Admin Panel</a>
-            <div class="d-flex gap-2">
+            <div class="gap-2 d-flex">
                 <a href="dashboard.html" class="btn btn-light btn-sm">🏠 Dashboard</a>
                 <button class="btn btn-light btn-sm" id="logoutBtn">🚪 Logout</button>
             </div>
@@ -20,7 +20,7 @@
     
     <div class="container mt-3 mt-sm-4">
         <!-- Stats Cards -->
-        <div class="row g-2 g-sm-3 mb-4">
+        <div class="mb-4 row g-2 g-sm-3">
             <div class="col-6 col-md-3">
                 <div class="admin-card" onclick="showTab('lostfound')">
                     <h2 id="lostCount">0</h2>
@@ -48,7 +48,7 @@
         </div>
         
         <!-- Tabs -->
-        <ul class="nav nav-tabs mb-3">
+        <ul class="mb-3 nav nav-tabs">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#lostfound">🔍 Lost & Found</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#complaints">📝 Complaints</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#volunteers">🤝 Volunteers</button></li>
@@ -62,9 +62,18 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
-                            <tr><th>#</th><th>Title</th><th>Description</th><th>Status</th><th>User ID</th><th>Date</th><th>Action</th>
-                            </thead>
-                        <tbody id="lostFoundTable"><tr><td colspan="7" class="text-center">Loading...</td></tr></tbody>
+                            <tr>
+                                <th style="width:50px">#</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th style="width:130px">Status</th>
+                                <th style="width:80px">User ID</th>
+                                <th style="width:100px">Date</th>
+                                <th style="width:80px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lostFoundTable"><tr><td colspan="7" class="text-center">Loading...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -74,21 +83,40 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
-                            <tr><th>#</th><th>Category</th><th>Description</th><th>Status</th><th>User ID</th><th>Date</th><th>Action</th>
-                            </thead>
-                        <tbody id="complaintsTable"><tr><td colspan="7" class="text-center">Loading...</td></tr></tbody>
+                            <tr>
+                                <th style="width:50px">#</th>
+                                <th style="width:120px">Category</th>
+                                <th>Description</th>
+                                <th style="width:130px">Status</th>
+                                <th style="width:80px">User ID</th>
+                                <th style="width:100px">Date</th>
+                                <th style="width:80px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="complaintsTable"><tr><td colspan="7" class="text-center">Loading...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
             
-            <!-- Volunteers Tab -->
+            <!-- Volunteers Tab with Status & Delete -->
             <div class="tab-pane fade" id="volunteers">
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
-                            <tr><th>#</th><th>Name</th><th>Event</th><th>Availability</th><th>User ID</th><th>Date</th>
-                            </thead>
-                        <tbody id="volunteersTable"><tr><td colspan="6" class="text-center">Loading...</td></tr></tbody>
+                            <tr>
+                                <th style="width:50px">#</th>
+                                <th>Name</th>
+                                <th>Event</th>
+                                <th>Availability</th>
+                                <th style="width:130px">Status</th>
+                                <th style="width:80px">User ID</th>
+                                <th style="width:100px">Date</th>
+                                <th style="width:80px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="volunteersTable"><td><td colspan="8" class="text-center">Loading...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -98,9 +126,19 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
-                            <tr><th>#</th><th>Item</th><th>Claimant Name</th><th>Claimant Email</th><th>Message</th><th>Status</th><th>Date</th><th>Action</th>
-                            </thead>
-                        <tbody id="claimsTable"><td><td colspan="8" class="text-center">Loading...</td></tr></tbody>
+                            <tr>
+                                <th style="width:50px">#</th>
+                                <th>Item</th>
+                                <th>Claimant Name</th>
+                                <th>Claimant Email</th>
+                                <th>Message</th>
+                                <th style="width:130px">Status</th>
+                                <th style="width:150px">Date</th>
+                                <th style="width:80px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="claimsTable"><tr><td colspan="8" class="text-center">Loading...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
