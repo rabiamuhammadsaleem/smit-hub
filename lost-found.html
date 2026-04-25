@@ -11,21 +11,59 @@
     <nav class="navbar navbar-smit">
         <div class="container">
             <a class="navbar-brand fw-bold" href="dashboard.html">🏫 SMIT Hub - Lost & Found</a>
-            <div class="d-flex gap-2">
-                <button class="btn btn-light btn-sm d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#postItemModal">📝 Post New Item</button>
-                <button class="btn btn-light btn-sm d-sm-none" data-bs-toggle="modal" data-bs-target="#postItemModal">📝</button>
+            <div class="gap-2 d-flex">
+                <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#postItemModal">📝 Post Item</button>
                 <a href="dashboard.html" class="btn btn-light btn-sm">🏠</a>
                 <button class="btn btn-light btn-sm" id="logoutBtn">🚪</button>
             </div>
         </div>
     </nav>
+
     
-    <div class="container mt-3 mt-sm-4">
-        <h4 class="mb-3">🔍 All Lost & Found Items</h4>
-        <div class="row g-3" id="itemsList">Loading...</div>
+    <div class="container mt-3">
+        <div class="row g-2 g-sm-3" id="statsCards">
+            <div class="col-6 col-md-3">
+                <div class="p-3 text-center stats-card">
+                    <div class="stats-number" id="lostCount">0</div>
+                    <div class="stats-label">🔴 Lost Items</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="p-3 text-center stats-card">
+                    <div class="stats-number" id="foundCount">0</div>
+                    <div class="stats-label">🟢 Found Items</div>
+                </div>
+            </div>
+            
+            
+        </div>
     </div>
 
-    <!-- Post Item Modal with Image Upload -->
+    
+    <div class="container mt-2">
+        <div class="gap-2 pb-2 overflow-auto d-flex">
+            <button class="btn btn-sm btn-outline-primary active" onclick="filterItems('all')">All</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('lost')">🔴 Lost</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('found')">🟢 Found</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('laptop')">💻 Laptop</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('phone')">📱 Phone</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('charger')">🔌 Charger</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('bottle')">💧 Bottle</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="filterItems('card')">🪪 ID Card</button>
+        </div>
+    </div>
+
+    
+    <div class="container mt-3">
+        <h5 class="mb-2">📋 All Items</h5>
+        <div class="row g-3" id="itemsList">
+            <div class="py-5 text-center col-12">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Loading...</p>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="postItemModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -36,57 +74,38 @@
                 <div class="modal-body">
                     <form id="postItemForm">
                         <div class="mb-3">
-                            <label>Item Type</label>
-                            <select id="itemType" class="form-control">
+                            <label class="form-label">Item Type</label>
+                            <select id="itemType" class="form-control" required>
                                 <option value="lost">🔴 Lost Item</option>
                                 <option value="found">🟢 Found Item</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label>Title</label>
+                            <label class="form-label">Title</label>
                             <input type="text" id="title" class="form-control" required>
                         </div>
                         <div class="mb-3">
-                            <label>Description</label>
-                            <textarea id="description" class="form-control" rows="3" required></textarea>
+                            <label class="form-label">Description</label>
+                            <textarea id="description" class="form-control" rows="2" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label>Upload Image</label>
+                            <label class="form-label">Location</label>
+                            <input type="text" id="location" class="form-control" placeholder="e.g., Library, Cafeteria">
+                        </div>
+                        <div class="mb-3">
+    <label class="form-label">Contact Number</label>
+    <input type="tel" id="contactNumber" class="form-control" placeholder="e.g., 0300-1234567" required>
+</div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload Image</label>
                             <input type="file" id="itemImage" class="form-control" accept="image/*">
-                            <small class="text-muted">Upload JPG, PNG or GIF (Max 2MB)</small>
                         </div>
                         <div id="imagePreview" class="mb-3" style="display:none;">
-                            <img id="previewImg" style="max-height:100px; border-radius:10px;">
+                            <img id="previewImg">
+                            <button type="button" class="mt-1 btn btn-sm btn-danger" onclick="document.getElementById('imagePreview').style.display='none'; document.getElementById('itemImage').value='';">Remove</button>
                         </div>
                         <button type="submit" class="btn btn-smit-success w-100">📤 Post Item</button>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Raise Hand Modal -->
-    <div class="modal fade" id="raiseHandModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background: linear-gradient(135deg, #66b032, #0057a8); color: white;">
-                    <h5 class="modal-title">👋 Raise Hand - Claim Item</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="claimItemId">
-                    <div class="mb-3">
-                        <label>Your Name</label>
-                        <input type="text" id="claimantName" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label>Message (Optional)</label>
-                        <textarea id="claimMessage" class="form-control" rows="3" placeholder="Why this item belongs to you?"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-smit-success" id="submitClaimBtn">Submit Claim</button>
                 </div>
             </div>
         </div>

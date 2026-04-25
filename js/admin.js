@@ -33,7 +33,6 @@ async function loadAllData() {
     await loadLostFound()
     await loadComplaints()
     await loadVolunteers()
-    await loadClaims()
     await updateStats()
 }
 
@@ -229,79 +228,6 @@ async function handleVolunteerStatusChange(e) {
     }
 }
 
-// ========== CLAIMS (RAISED HAND) ==========
-async function loadClaims() {
-    const { data: claims } = await supabase
-        .from('item_claims')
-        .select('*')
-        .order('created_at', { ascending: false })
-    
-    const { data: items } = await supabase
-        .from('lost_found_items')
-        .select('id, title')
-    
-    if (!claims?.length) {
-        document.getElementById('claimsTable').innerHTML = '<tr><td colspan="8" class="text-center">No raised hand claims yet</td></tr>'
-        document.getElementById('claimCount').innerText = '0'
-        return
-    }
-    
-    const itemMap = {}
-    items?.forEach(item => { itemMap[item.id] = item.title })
-    
-    let html = ''
-    let serialNo = 1
-    for (let claim of claims) {
-        html += `
-            <tr>
-                <td style="width:50px; text-align:center;">${serialNo++}</td>
-                <td>${escapeHtml(itemMap[claim.item_id] || 'Item ' + claim.item_id)}</td>
-                <td>${escapeHtml(claim.claimant_name)}</td>
-                <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(claim.claimant_email)}</td>
-                <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis;" title="${escapeHtml(claim.message || '')}">${escapeHtml(claim.message?.substring(0,30) || '-')}</td>
-                <td style="width:130px;">
-                    <select class="form-select form-select-sm status-claim" data-id="${claim.id}" style="width:100px">
-                        <option value="pending" ${claim.status === 'pending' ? 'selected' : ''}>Pending</option>
-                        <option value="approved" ${claim.status === 'approved' ? 'selected' : ''}>Approved</option>
-                        <option value="rejected" ${claim.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-                    </select>
-                </td>
-                <td style="white-space:nowrap; width:150px;">${new Date(claim.created_at).toLocaleString()}</td>
-                <td style="width:80px;">
-                    <button class="btn btn-danger btn-sm delete-claim" data-id="${claim.id}" data-table="item_claims">🗑️ Delete</button>
-                </td>
-            </tr>
-        `
-    }
-    document.getElementById('claimsTable').innerHTML = html
-    document.getElementById('claimCount').innerText = claims.length
-    
-    document.querySelectorAll('.status-claim').forEach(sel => {
-        sel.removeEventListener('change', handleClaimStatusChange)
-        sel.addEventListener('change', handleClaimStatusChange)
-    })
-    
-    document.querySelectorAll('.delete-claim').forEach(btn => {
-        btn.removeEventListener('click', handleDelete)
-        btn.addEventListener('click', handleDelete)
-    })
-}
-
-async function handleClaimStatusChange(e) {
-    const select = e.target
-    const newStatus = select.value
-    const claimId = select.dataset.id
-    const { error } = await supabase
-        .from('item_claims')
-        .update({ status: newStatus })
-        .eq('id', claimId)
-    if (error) {
-        showNotification('Error: ' + error.message, 'error')
-    } else {
-        showNotification('✅ Claim status updated to ' + newStatus, 'success')
-        await loadAllData()
-    }
-}
 
 // ========== GENERIC DELETE HANDLER ==========
 async function handleDelete(e) {
@@ -313,7 +239,6 @@ async function handleDelete(e) {
     if (table === 'lost_found_items') itemName = 'this item'
     if (table === 'complaints') itemName = 'this complaint'
     if (table === 'volunteers') itemName = 'this volunteer application'
-    if (table === 'item_claims') itemName = 'this claim'
     
     const confirmed = confirm(`⚠️ Are you sure you want to delete ${itemName}?`)
     
@@ -335,17 +260,14 @@ async function updateStats() {
     const { count: lc } = await supabase.from('lost_found_items').select('*', { count: 'exact', head: true })
     const { count: cc } = await supabase.from('complaints').select('*', { count: 'exact', head: true })
     const { count: vc } = await supabase.from('volunteers').select('*', { count: 'exact', head: true })
-    const { count: claimc } = await supabase.from('item_claims').select('*', { count: 'exact', head: true })
     
     const lostCountEl = document.getElementById('lostCount')
     const complaintCountEl = document.getElementById('complaintCount')
     const volunteerCountEl = document.getElementById('volunteerCount')
-    const claimCountEl = document.getElementById('claimCount')
     
     if (lostCountEl) lostCountEl.innerText = lc || 0
     if (complaintCountEl) complaintCountEl.innerText = cc || 0
     if (volunteerCountEl) volunteerCountEl.innerText = vc || 0
-    if (claimCountEl) claimCountEl.innerText = claimc || 0
 }
 
 // ========== ESCAPE HTML ==========
